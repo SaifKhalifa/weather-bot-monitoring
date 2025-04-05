@@ -12,12 +12,14 @@ namespace weather_bot_monitoring.Bots
             _temperatureThreshold = temperatureThreshold;
         }
 
-        public void CheckAndActivate(WeatherData data)
+        public bool CheckAndActivate(WeatherData data)
         {
             if (data.Temperature >= _temperatureThreshold)
             {
                 Console.WriteLine("Temperature is high, SunBot activated!\a");
+                return true;
             }
+            return false;
         }
     }
 }

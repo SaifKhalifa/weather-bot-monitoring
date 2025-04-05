@@ -12,12 +12,14 @@ namespace weather_bot_monitoring.Bots
             _humidityThreshold = humidityThreshold;
         }
 
-        public void CheckAndActivate(WeatherData data)
+        public bool CheckAndActivate(WeatherData data)
         {
             if (data.Humidity >= _humidityThreshold)
             {
                 Console.WriteLine("Humidity is high, RainBot activated!\a");
+                return true;
             }
+            return false;
         }
     }
 }
