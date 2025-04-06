@@ -1,25 +1,24 @@
-namespace weather_bot_monitoring.Bots
+namespace weather_bot_monitoring.Bots;
+
+using System;
+using weather_bot_monitoring.Models;
+
+public class SnowBot : IWeatherBot
 {
-    using System;
-    using weather_bot_monitoring.Models;
+    private readonly double _temperatureThreshold;
 
-    public class SnowBot : IWeatherBot
+    public SnowBot(double temperatureThreshold)
     {
-        private readonly double _temperatureThreshold;
+        _temperatureThreshold = temperatureThreshold;
+    }
 
-        public SnowBot(double temperatureThreshold)
+    public bool CheckAndActivate(WeatherData data)
+    {
+        if (data.Temperature >= _temperatureThreshold)
         {
-            _temperatureThreshold = temperatureThreshold;
+            Console.WriteLine("Temperature is pretty cold, SnowBot activated!\a");
+            return true;
         }
-
-        public bool CheckAndActivate(WeatherData data)
-        {
-            if (data.Temperature >= _temperatureThreshold)
-            {
-                Console.WriteLine("Temperature is pretty cold, SnowBot activated!\a");
-                return true;
-            }
-            return false;
-        }
+        return false;
     }
 }

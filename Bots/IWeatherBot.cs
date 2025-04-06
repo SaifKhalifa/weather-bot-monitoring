@@ -1,9 +1,8 @@
+namespace weather_bot_monitoring.Bots;
+
 using weather_bot_monitoring.Models;
 
-namespace weather_bot_monitoring.Bots
+public interface IWeatherBot
 {
-    public interface IWeatherBot
-    {
-        bool CheckAndActivate(WeatherData data);
-    }
+    bool CheckAndActivate(WeatherData data);
 }

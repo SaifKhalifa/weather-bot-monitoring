@@ -1,25 +1,24 @@
-namespace weather_bot_monitoring.Bots
+namespace weather_bot_monitoring.Bots;
+
+using System;
+using weather_bot_monitoring.Models;
+
+public class RainBot : IWeatherBot
 {
-    using System;
-    using weather_bot_monitoring.Models;
+    private readonly double _humidityThreshold;
 
-    public class RainBot : IWeatherBot
+    public RainBot(double humidityThreshold)
     {
-        private readonly double _humidityThreshold;
+        _humidityThreshold = humidityThreshold;
+    }
 
-        public RainBot(double humidityThreshold)
+    public bool CheckAndActivate(WeatherData data)
+    {
+        if (data.Humidity >= _humidityThreshold)
         {
-            _humidityThreshold = humidityThreshold;
+            Console.WriteLine("Humidity is high, RainBot activated!\a");
+            return true;
         }
-
-        public bool CheckAndActivate(WeatherData data)
-        {
-            if (data.Humidity >= _humidityThreshold)
-            {
-                Console.WriteLine("Humidity is high, RainBot activated!\a");
-                return true;
-            }
-            return false;
-        }
+        return false;
     }
 }

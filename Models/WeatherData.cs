@@ -1,9 +1,7 @@
-namespace weather_bot_monitoring.Models
+namespace weather_bot_monitoring.Models;
+public class WeatherData
 {
-    public class WeatherData
-    {
-        public string Location { get; set; }
-        public double Temperature { get; set; }
-        public double Humidity { get; set; }
-    }
+    public string Location { get; set; }
+    public double Temperature { get; set; }
+    public double Humidity { get; set; }
 }
