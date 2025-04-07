@@ -86,14 +86,7 @@ internal static class Program
         {
             Console.WriteLine($"Failed to load bot config: {ex.Message}");
             return;
-        }
-
-        Console.WriteLine("\n=== Debug Config ===");
-        Console.WriteLine($"RainBot Enabled: {config.RainBot?.Enabled}, Threshold: {config.RainBot?.HumidityThreshold}, Msg: {config.RainBot?.Message}");
-        Console.WriteLine($"SunBot Enabled: {config.SunBot?.Enabled}, Threshold: {config.SunBot?.TemperatureThreshold}, Msg: {config.SunBot?.Message}");
-        Console.WriteLine($"SnowBot Enabled: {config.SnowBot?.Enabled}, Threshold: {config.SnowBot?.TemperatureThreshold}, Msg: {config.SnowBot?.Message}");
-        Console.WriteLine("====================\n");
-
+        }        
 
         // Set up bots
         var bots = new List<IWeatherBot>();        
