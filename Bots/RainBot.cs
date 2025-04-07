@@ -5,18 +5,20 @@ using weather_bot_monitoring.Models;
 
 public class RainBot : IWeatherBot
 {
-    private readonly double _humidityThreshold;
+    private readonly int _humidityThreshold;
+    private readonly string _message;
 
-    public RainBot(double humidityThreshold)
+    public RainBot(int humidityThreshold, string message)
     {
         _humidityThreshold = humidityThreshold;
+        _message = message;
     }
 
     public bool CheckAndActivate(WeatherData data)
     {
         if (data.Humidity >= _humidityThreshold)
         {
-            Console.WriteLine("Humidity is high, RainBot activated!\a");
+            Console.WriteLine(_message);
             return true;
         }
         return false;

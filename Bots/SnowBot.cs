@@ -5,18 +5,20 @@ using weather_bot_monitoring.Models;
 
 public class SnowBot : IWeatherBot
 {
-    private readonly double _temperatureThreshold;
+    private readonly int _temperatureThreshold;
+    private readonly string _message;
 
-    public SnowBot(double temperatureThreshold)
+    public SnowBot(int temperatureThreshold, string message)
     {
         _temperatureThreshold = temperatureThreshold;
+        _message = message;
     }
 
     public bool CheckAndActivate(WeatherData data)
     {
-        if (data.Temperature >= _temperatureThreshold)
+        if (data.Temperature <= _temperatureThreshold)
         {
-            Console.WriteLine("Temperature is pretty cold, SnowBot activated!\a");
+            Console.WriteLine(_message);
             return true;
         }
         return false;
