@@ -27,27 +27,8 @@ internal static class Program
 
 
         // Load bot config from JSON file
-        BotsConfig config;
-        try
-        {
-            string configContent = await File.ReadAllTextAsync("WeatherBotsConfig.json");
-            config = JsonSerializer.Deserialize<BotsConfig>(configContent, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-            
-            if (config == null)
-            {
-                Console.WriteLine("Config is null after deserialization. Please check the JSON format.");
-                return;
-            }
-
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Failed to load bot config: {ex.Message}");
-            return;
-        }        
+        BotsConfig? config = await LoadBotConfigAsync();
+        if (config == null) return;
 
         // Set up bots
         var bots = new List<IWeatherBot>();        
@@ -141,6 +122,31 @@ internal static class Program
         catch (Exception ex)
         {
             Console.WriteLine("Parsing failed: " + ex.Message);
+            return null;
+        }
+    }
+
+    static async Task<BotsConfig?> LoadBotConfigAsync()
+    {
+        try
+        {
+            string configContent = await File.ReadAllTextAsync("WeatherBotsConfig.json");
+            var config = JsonSerializer.Deserialize<BotsConfig>(configContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (config == null)
+            {
+                Console.WriteLine("Config is null after deserialization. Please check the JSON format.");
+                return null;
+            }
+
+            return config;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to load bot config: {ex.Message}");
             return null;
         }
     }
