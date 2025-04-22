@@ -7,7 +7,7 @@ using weather_bot_monitoring.Parsers;
 
 internal static class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         Console.WriteLine("=== Weather Bot Monitoring ===");
 
@@ -48,22 +48,31 @@ internal static class Program
             dataString = input;
         }
 
-        // Choose parser
-        IWeatherDataParser parser = format == "1"
-            ? new JsonWeatherDataParser()
-            : new XmlWeatherDataParser();
+        var factory = new WeatherDataParserFactory();
+        IWeatherDataParser parser;
 
-        // Parse weather data
-        WeatherData data;
         try
         {
-            data = parser.Parse(dataString);
+            parser = factory.GetParser(format);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error parsing data: {ex.Message}");
+            Console.WriteLine("Parser error: " + ex.Message);
             return;
         }
+
+        // async parsing
+        WeatherData data;
+        try
+        {
+            data = await parser.ParseAsync(dataString);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Parsing failed: " + ex.Message);
+            return;
+        }
+
 
         // Load bot config from JSON file
         BotsConfig config;
