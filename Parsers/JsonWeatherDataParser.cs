@@ -4,8 +4,9 @@ using System.Text.Json;
 
 public class JsonWeatherDataParser : IWeatherDataParser
 {
-    public WeatherData Parse(string input)
+    public Task<WeatherData> ParseAsync(string input)
     {
-        return JsonSerializer.Deserialize<WeatherData>(input);
+        var result = JsonSerializer.Deserialize<WeatherData>(input);
+        return Task.FromResult(result);
     }
 }
