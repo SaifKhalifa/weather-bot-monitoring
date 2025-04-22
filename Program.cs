@@ -15,31 +15,8 @@ internal static class Program
         string format = GetFormat();
 
         // Ask for weather data input (string or file path)
-        Console.WriteLine("Paste weather data string or file path:");
-        string input = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(input))
-        {
-            Console.WriteLine("Input cannot be empty.");
-            return;
-        }
-
-        string dataString;
-        if (File.Exists(input))
-        {
-            try
-            {
-                dataString = await File.ReadAllTextAsync(input);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error reading file: {ex.Message}");
-                return;
-            }
-        }
-        else
-        {
-            dataString = input;
-        }
+        string? dataString = await GetWeatherDataInputAsync();
+        if (dataString == null) return;
 
         var factory = new WeatherDataParserFactory();
         IWeatherDataParser parser;
@@ -124,9 +101,38 @@ internal static class Program
         {
             Console.WriteLine("Choose format: (1) JSON, (2) XML");
             format = Console.ReadLine()?.Trim();
-            if (format == "1" || format == "2") break;
+
+            if (format == "1" || format == "2") 
+                break;
+
             Console.WriteLine("Invalid input. Please enter 1 or 2.");
         }
         return format;
+    }
+
+    static async Task<string?> GetWeatherDataInputAsync()
+    {
+        Console.WriteLine("Paste weather data string or file path:");
+        string input = Console.ReadLine()?.Trim();
+        if (string.IsNullOrEmpty(input))
+        {
+            Console.WriteLine("Input cannot be empty.");
+            return null;
+        }
+
+        if (File.Exists(input))
+        {
+            try
+            {
+                return await File.ReadAllTextAsync(input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading file: {ex.Message}");
+                return null;
+            }
+        }
+
+        return input;
     }
 }
