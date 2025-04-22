@@ -31,14 +31,7 @@ internal static class Program
         if (config == null) return;
 
         // Set up bots
-        var bots = new List<IWeatherBot>();        
-
-        if (config.RainBot?.Enabled == true)
-            bots.Add(new RainBot(config.RainBot.HumidityThreshold, config.RainBot.Message));
-        if (config.SunBot?.Enabled == true)
-            bots.Add(new SunBot(config.SunBot.TemperatureThreshold, config.SunBot.Message));
-        if (config.SnowBot?.Enabled == true)
-            bots.Add(new SnowBot(config.SnowBot.TemperatureThreshold, config.SnowBot.Message));
+        var bots = CreateBots(config);
 
         // Run bots
         var activatedBots = bots
@@ -149,5 +142,19 @@ internal static class Program
             Console.WriteLine($"Failed to load bot config: {ex.Message}");
             return null;
         }
+    }
+
+    static List<IWeatherBot> CreateBots(BotsConfig config)
+    {
+        var bots = new List<IWeatherBot>();
+
+        if (config.RainBot?.Enabled == true)
+            bots.Add(new RainBot(config.RainBot.HumidityThreshold, config.RainBot.Message));
+        if (config.SunBot?.Enabled == true)
+            bots.Add(new SunBot(config.SunBot.TemperatureThreshold, config.SunBot.Message));
+        if (config.SnowBot?.Enabled == true)
+            bots.Add(new SnowBot(config.SnowBot.TemperatureThreshold, config.SnowBot.Message));
+
+        return bots;
     }
 }
