@@ -35,7 +35,7 @@ internal static class Program
         {
             try
             {
-                dataString = File.ReadAllText(input);
+                dataString = await File.ReadAllTextAsync(input);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ internal static class Program
         BotsConfig config;
         try
         {
-            string configContent = File.ReadAllText("WeatherBotsConfig.json");
+            string configContent = await File.ReadAllTextAsync("WeatherBotsConfig.json");
             config = JsonSerializer.Deserialize<BotsConfig>(configContent, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
