@@ -105,18 +105,22 @@ internal static class Program
         if (config.SunBot?.Enabled == true)
             bots.Add(new SunBot(config.SunBot.TemperatureThreshold, config.SunBot.Message));
         if (config.SnowBot?.Enabled == true)
-            bots.Add(new SnowBot(config.SnowBot.TemperatureThreshold, config.SnowBot.Message));        
+            bots.Add(new SnowBot(config.SnowBot.TemperatureThreshold, config.SnowBot.Message));
 
         // Run bots
-        bool anyBotActivated = bots.Any(bot => bot.CheckAndActivate(data));
+        var activatedBots = bots
+            .Where(bot => bot.CheckAndActivate(data))
+            .Select(bot => bot.GetType().Name)
+            .ToList();
 
-        if (!anyBotActivated)
+        if (!activatedBots.Any())
         {
             Console.WriteLine("No bot was activated.");
         }
         else
         {
-            Console.WriteLine("At least one bot was activated.");
+            Console.WriteLine("Activated bot(s): " + string.Join(", ", activatedBots));
         }
+
     }
 }
