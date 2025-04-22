@@ -12,14 +12,7 @@ internal static class Program
         Console.WriteLine("=== Weather Bot Monitoring ===");
 
         // Ask for format
-        string format;
-        while (true)
-        {
-            Console.WriteLine("Choose format: (1) JSON, (2) XML");
-            format = Console.ReadLine()?.Trim();
-            if (format == "1" || format == "2") break;
-            Console.WriteLine("Invalid input. Please enter 1 or 2.");
-        }
+        string format = GetFormat();
 
         // Ask for weather data input (string or file path)
         Console.WriteLine("Paste weather data string or file path:");
@@ -122,5 +115,18 @@ internal static class Program
             Console.WriteLine("Activated bot(s): " + string.Join(", ", activatedBots));
         }
 
+    }
+
+    static string GetFormat()
+    {
+        string format;
+        while (true)
+        {
+            Console.WriteLine("Choose format: (1) JSON, (2) XML");
+            format = Console.ReadLine()?.Trim();
+            if (format == "1" || format == "2") break;
+            Console.WriteLine("Invalid input. Please enter 1 or 2.");
+        }
+        return format;
     }
 }
