@@ -18,18 +18,8 @@ internal static class Program
         string? dataString = await GetWeatherDataInputAsync();
         if (dataString == null) return;
 
-        var factory = new WeatherDataParserFactory();
-        IWeatherDataParser parser;
-
-        try
-        {
-            parser = factory.GetParser(format);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Parser error: " + ex.Message);
-            return;
-        }
+        var parser = GetParser(format);
+        if (parser == null) return;
 
         // async parsing
         WeatherData data;
@@ -134,5 +124,19 @@ internal static class Program
         }
 
         return input;
+    }
+
+    static IWeatherDataParser? GetParser(string format)
+    {
+        var factory = new WeatherDataParserFactory();
+        try
+        {
+            return factory.GetParser(format);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Parser error: " + ex.Message);
+            return null;
+        }
     }
 }
