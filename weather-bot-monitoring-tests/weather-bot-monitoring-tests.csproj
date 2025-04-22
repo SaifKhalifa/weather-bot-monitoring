@@ -9,6 +9,7 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputType>Exe</OutputType>
 
   </PropertyGroup>
 
