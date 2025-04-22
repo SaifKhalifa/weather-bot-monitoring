@@ -22,16 +22,8 @@ internal static class Program
         if (parser == null) return;
 
         // async parsing
-        WeatherData data;
-        try
-        {
-            data = await parser.ParseAsync(dataString);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Parsing failed: " + ex.Message);
-            return;
-        }
+        WeatherData? data = await ParseWeatherDataAsync(parser, dataString);
+        if (data == null) return;
 
 
         // Load bot config from JSON file
@@ -136,6 +128,19 @@ internal static class Program
         catch (Exception ex)
         {
             Console.WriteLine("Parser error: " + ex.Message);
+            return null;
+        }
+    }
+
+    static async Task<WeatherData?> ParseWeatherDataAsync(IWeatherDataParser parser, string input)
+    {
+        try
+        {
+            return await parser.ParseAsync(input);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Parsing failed: " + ex.Message);
             return null;
         }
     }
