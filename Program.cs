@@ -34,20 +34,7 @@ internal static class Program
         var bots = CreateBots(config);
 
         // Run bots
-        var activatedBots = bots
-            .Where(bot => bot.CheckAndActivate(data))
-            .Select(bot => bot.GetType().Name)
-            .ToList();
-
-        if (!activatedBots.Any())
-        {
-            Console.WriteLine("No bot was activated.");
-        }
-        else
-        {
-            Console.WriteLine("Activated bot(s): " + string.Join(", ", activatedBots));
-        }
-
+        RunBots(bots, data);
     }
 
     static string GetFormat()
@@ -156,5 +143,22 @@ internal static class Program
             bots.Add(new SnowBot(config.SnowBot.TemperatureThreshold, config.SnowBot.Message));
 
         return bots;
+    }
+
+    static void RunBots(List<IWeatherBot> bots, WeatherData data)
+    {
+        var activatedBots = bots
+            .Where(bot => bot.CheckAndActivate(data))
+            .Select(bot => bot.GetType().Name)
+            .ToList();
+
+        if (!activatedBots.Any())
+        {
+            Console.WriteLine("No bot was activated.");
+        }
+        else
+        {
+            Console.WriteLine("Activated bot(s): " + string.Join(", ", activatedBots));
+        }
     }
 }
