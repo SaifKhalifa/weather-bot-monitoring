@@ -7,6 +7,7 @@ using weather_bot_monitoring.Parsers;
 
 internal static class Program
 {
+#if false
     static void Main(string[] args)
     {
         Console.WriteLine("=== Weather Bot Monitoring ===");
@@ -110,4 +111,5 @@ internal static class Program
             Console.WriteLine("At least one bot was activated.");
         }
     }
+#endif
 }
